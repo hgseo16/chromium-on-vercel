@@ -1,9 +1,7 @@
 import puppeteer from "puppeteer";
 
-let screenshotCounter = 0;
 
 export async function GET() {
-  screenshotCounter++;
   const install = require(`puppeteer/internal/node/install.js`).downloadBrowser;
   await install();
 
@@ -22,7 +20,7 @@ export async function GET() {
   await page.close();
   await browser.close();
 
-  return new Response(JSON.stringify({ title, image: image.toString("base64"), counter: screenshotCounter }), {
+  return new Response(JSON.stringify({ title, image: image.toString("base64") }), {
     headers: { "Content-Type": "application/json" },
   });
 }

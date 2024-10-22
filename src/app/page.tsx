@@ -8,19 +8,21 @@ export default function Home() {
   const [screenshotData, setScreenshotData] = useState({
     image: "",
     title: "",
-    counter: 0,
   });
+  const [counter, setCounter] = useState(0);
 
   const updateScreenshot = async () => {
+    console.log("Updating screenshot");
     const response = await fetch("/api/screenshot");
     const data = await response.json();
     setScreenshotData(data);
+    setCounter(counter + 1);
   };
 
   useEffect(() => {
     updateScreenshot(); // Fetch the initial screenshot
 
-    const intervalId = setInterval(updateScreenshot, 10000); // Set interval to update every 10 seconds
+    const intervalId = setInterval(updateScreenshot, 10000);
 
     return () => clearInterval(intervalId); // Cleanup on component unmount
   }, []);
@@ -28,7 +30,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
       <h1>Screenshot refreshes every 30 seconds</h1>
-      <p>Screenshot count: {screenshotData.counter}</p>
+      <p>Screenshot count: {counter}</p>
       {screenshotData.image && (
         <Image
           src={`data:image/png;base64,${screenshotData.image}`}
