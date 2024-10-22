@@ -1,5 +1,5 @@
 export const maxDuration = 60; // This function can run for a maximum of 60 seconds
-export const revalidate = 120 // revalidate at most every 5 minutes
+export const revalidate = 30 // revalidate at most every 5 minutes
 
 import Image from "next/image";
 import Link from "next/link";
