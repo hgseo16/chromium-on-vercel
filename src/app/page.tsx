@@ -5,15 +5,18 @@ import Image from "next/image";
 import Link from "next/link";
 import puppeteer from "puppeteer";
 
+let screenshotCounter = 0;
+
 export default async function Home() {
-  const image = await getScreenshot();
+  const { image, title, counter } = await getScreenshot();
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
       <h1>Screenshot refreshes every 5 minutes</h1>
+      <p>Screenshot count: {counter}</p>
       <Image
-        src={`data:image/png;base64,${image.image.toString("base64")}`}
-        alt={image.title}
+        src={`data:image/png;base64,${image.toString("base64")}`}
+        alt={title}
         width={800}
         height={600}
       />
@@ -24,6 +27,7 @@ export default async function Home() {
 
 async function getScreenshot() {
   console.log("get screenshot");
+  screenshotCounter++;
   const install = require(`puppeteer/internal/node/install.js`).downloadBrowser;
   await install();
 
@@ -45,5 +49,6 @@ async function getScreenshot() {
   return {
     title,
     image,
+    counter: screenshotCounter
   };
 }
